@@ -1,7 +1,22 @@
-package hexico.foostack
+package hexico.foostack.assembler
 
-import scala.util.parsing.combinator.RegexParsers
+import hexico.foostack.parsers.AsmParser
 
+object Assembler extends AsmParser {
+  def main(args: Array[String]) {
+    println(parseAll(asm,
+      """; hello world
+        |a_symbol:
+        |   this a7, +212
+        |_a_label:
+        |   that (-8,a7)
+        |
+      """.stripMargin))
+  }
+}
+
+
+/*
 sealed trait Operand
 case class Register(r: Asm.Register.Value) extends Operand
 case class HalfRegister(r: Asm.HalfRegister.Value) extends Operand
@@ -14,6 +29,7 @@ case class Instruction(op: String, operands: List[Operand]) extends ASTNode
 case class Directive(directive: String, args: List[String]) extends ASTNode
 case class Symbol(symbol: String) extends ASTNode
 case class Label(label: String) extends ASTNode
+
 
 trait AsmParser extends RegexParsers {
   override def skipWhitespace = true
@@ -81,13 +97,13 @@ trait AsmParser extends RegexParsers {
   // Line: statement followed by comment, both optional
   def line: Parser[Any] = opt(statement) <~ opt(comment)
   // Assembly file: a sequence of lines
-  def asm: Parser[Any] = repsep(line, newLine)
+  def assembler: Parser[Any] = repsep(line, newLine)
 }
 
 object Assembler extends AsmParser {
   def main(args: Array[String]) {
     println()
-    println(parseAll(asm,
+    println(parseAll(assembler,
       """; Test comments
         |; I am a comment
         |    ; so am i
@@ -111,3 +127,4 @@ object Assembler extends AsmParser {
       """.stripMargin))
   }
 }
+*/
